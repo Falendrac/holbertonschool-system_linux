@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <stdio.h>
+#include <dirent.h>
 
 #endif
 
