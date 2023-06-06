@@ -28,13 +28,22 @@ void printList(DIR *dir)
 /**
  * main - main function of hls
  *
+ * @argc: Number of arguments passed
+ * @argv: All values passed
+ *
  * Return: 0 if is reach here
  */
-int main(void)
+int main(int argc, char **argv)
 {
 	DIR *dir;
 
-	dir = opendir(".");
+	if (argc == 1)
+		dir = opendir(".");
+	else
+		dir = opendir(argv[1]);
+
+	if (dir == NULL)
+		openError(argv);
 
 	printList(dir);
 

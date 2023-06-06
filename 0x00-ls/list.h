@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 #include <dirent.h>
+#include <stdlib.h>
+
+void printList(DIR *dir);
+void openError(char **argv);
 
 #endif
 
