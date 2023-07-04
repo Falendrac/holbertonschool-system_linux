@@ -5,14 +5,18 @@
  * opendir cannot open a directory, and print the error
  * in the stderr
  *
- * @argv: value passed at the execution of the command
+ * @program: name of the program
+ * @dataArgs: the struct of all args passes at the beggining
+ * @index: index of the arguments that occur the error
  *
  * Return: 2
 */
-void openError(char **argv)
+void openError(char *program, argsPass *dataArgs, int index)
 {
 	fprintf(stderr,
-			"%s: cannot access '%s': No such file or directory\n", argv[0], argv[1]);
+			"%s: cannot access '%s': No such file or directory\n",
+			program,
+			dataArgs->args[index]);
 
-	exit(2);
+	dataArgs->errorCode = 2;
 }
