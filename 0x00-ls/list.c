@@ -36,6 +36,7 @@ void printList(DIR *dir, __attribute__((unused)) argsPass *dataArgs)
 argsPass *readArgs(int argc, char **argv)
 {
 	argsPass *dataArgs;
+	int row;
 
 	dataArgs = malloc(sizeof(argsPass));
 	dataArgs->args = malloc(argc * sizeof(char *));
@@ -49,7 +50,7 @@ argsPass *readArgs(int argc, char **argv)
 		dataArgs->argsNumber = 1;
 	}
 
-	for (int row = 1; row < argc; row++)
+	for (row = 1; row < argc; row++)
 	{
 		dataArgs->args[row - 1] = argv[row];
 		dataArgs->argsNumber++;
@@ -73,11 +74,11 @@ int main(int argc, char **argv)
 {
 	DIR *dir;
 	argsPass *dataArgs;
-	int errorTmp;
+	int errorTmp, row;
 
 	dataArgs = readArgs(argc, argv);
 
-	for (int row = 0; row < dataArgs->argsNumber; row++)
+	for (row = 0; row < dataArgs->argsNumber; row++)
 	{
 		dir = opendir(dataArgs->args[row]);
 
