@@ -4,25 +4,61 @@
  * printList - Print the content of dir
  *
  * @dir: Pointer that contain the content of a directory
+ * @dataArgs: the struct of all args passes at the beggining
 */
-void printList(DIR *dir)
+void printList(DIR *dir, __attribute__((unused)) argsPass *dataArgs)
 {
 	struct dirent *read;
-	int firstPrint = 0;
+	char *separator = "";
 
 	while ((read = readdir(dir)) != NULL)
 	{
 		if (*read->d_name != '.')
 		{
-			if (firstPrint)
-				printf("  ");
+			printf("%s%s", separator, read->d_name);
 
-			printf("%s", read->d_name);
-
-			firstPrint = 1;
+			separator = "  ";
 		}
 	}
+
 	printf("\n");
+}
+
+/**
+ * readArgs - Check all arguments passes to the program and
+ * store it in a argsPass struct
+ *
+ * @argc: The count of the arguments passes
+ * @argv: Arguments passes to the program
+ *
+ * Return: A argsPass struct
+*/
+argsPass *readArgs(int argc, char **argv)
+{
+	argsPass *dataArgs;
+
+	dataArgs = malloc(sizeof(argsPass));
+	dataArgs->args = malloc(argc * sizeof(char *));
+	dataArgs->argsNumber = 0;
+	dataArgs->endLine = "\n";
+	dataArgs->errorCode = 0;
+
+	if (argc == 1)
+	{
+		dataArgs->args[0] = ".";
+		dataArgs->argsNumber = 1;
+	}
+
+	for (int row = 1; row < argc; row++)
+	{
+		dataArgs->args[row - 1] = argv[row];
+		dataArgs->argsNumber++;
+	}
+
+	if (dataArgs->argsNumber > 1)
+		dataArgs->endLine = "\n\n";
+
+	return (dataArgs);
 }
 
 /**
@@ -36,18 +72,37 @@ void printList(DIR *dir)
 int main(int argc, char **argv)
 {
 	DIR *dir;
+	argsPass *dataArgs;
+	int errorTmp;
 
-	if (argc == 1)
-		dir = opendir(".");
-	else
-		dir = opendir(argv[1]);
+	dataArgs = readArgs(argc, argv);
 
-	if (dir == NULL)
-		openError(argv);
+	for (int row = 0; row < dataArgs->argsNumber; row++)
+	{
+		dir = opendir(dataArgs->args[row]);
 
-	printList(dir);
+		if (dir == NULL)
+		{
+			openError(argv[0], dataArgs, row);
+			continue;
+		}
 
-	closedir(dir);
+		if (dataArgs->argsNumber > 1)
+			printf("%s:\n", dataArgs->args[row]);
 
-	return (0);
+		printList(dir, dataArgs);
+		if (dataArgs->argsNumber - row > 1)
+			printf("\n");
+
+		closedir(dir);
+	}
+
+	free(dataArgs->args);
+	errorTmp = dataArgs->errorCode;
+	free(dataArgs);
+
+	if (errorTmp != 0)
+		exit(dataArgs->errorCode);
+
+	return (errorTmp);
 }
