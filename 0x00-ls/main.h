@@ -27,7 +27,9 @@ typedef struct options
 /**
  * struct arguments - Struct for arguments
  *
- * @args: The arguments
+ * @directorylist: The list of directory name passes
+ * @filelist: The list of files name passes
+ * @errorlist: The list of name that occur errors
  * @options: The options struct
  * @number: The number of arguments
  * @errorCode: The error code
