@@ -11,9 +11,9 @@
 arguments _getArguments(int argc, char *argv[])
 {
 	arguments arguments;
-	int optionNumbers = 0;
+	int optionNumbers = 0, index;
 
-	for (int index = 0; index < argc; index++)
+	for (index = 0; index < argc; index++)
 		if (argv[index][0] == '-')
 			optionNumbers++;
 
@@ -26,7 +26,7 @@ arguments _getArguments(int argc, char *argv[])
 		arguments.number = 1;
 	}
 
-	for (int index = 1; index < argc; index++)
+	for (index = 1; index < argc; index++)
 		if (argv[index][0] != '-')
 		{
 			arguments.directorylist[arguments.number] = argv[index];
