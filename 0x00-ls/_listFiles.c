@@ -1,8 +1,5 @@
 #include "main.h"
 
-#define STDSEPARATOR "  "
-#define LINESEPARATOR "\n"
-
 /**
  * _listFiles - List all files in a directory
  *

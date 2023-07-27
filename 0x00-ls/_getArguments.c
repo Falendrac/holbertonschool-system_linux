@@ -22,14 +22,14 @@ arguments _getArguments(int argc, char *argv[])
 
 	if (argc == 1)
 	{
-		arguments.args[0] = ".";
+		arguments.directorylist[0] = ".";
 		arguments.number = 1;
 	}
 
 	for (int index = 1; index < argc; index++)
 		if (argv[index][0] != '-')
 		{
-			arguments.args[arguments.number] = argv[index];
+			arguments.directorylist[arguments.number] = argv[index];
 			arguments.number++;
 		}
 		else

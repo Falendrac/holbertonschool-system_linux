@@ -7,6 +7,11 @@
 #include <string.h>
 #include <errno.h>
 
+#define STDSEPARATOR "  "
+#define LINESEPARATOR "\n"
+#define SERIOUS_PROBLEM 2
+#define MINOR_PROBLEM 1
+
 /**
  * struct options - Struct for options
  *
@@ -29,7 +34,9 @@ typedef struct options
  */
 typedef struct arguments
 {
-	char **args;
+	char **directorylist;
+	char **filelist;
+	char **errorlist;
 	options options;
 	int number;
 	int errorCode;
