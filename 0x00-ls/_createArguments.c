@@ -12,7 +12,7 @@ arguments _createArguments(int argc)
 {
 	arguments arguments;
 
-	arguments.directorylist = malloc((argc - 1) * sizeof(char *));
+	arguments.directorylist = malloc((argc) * sizeof(char *));
 	arguments.number = 0;
 	arguments.errorCode = EXIT_SUCCESS;
 
