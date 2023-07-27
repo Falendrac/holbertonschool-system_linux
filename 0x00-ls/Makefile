@@ -1,2 +1,2 @@
 all:
-	gcc -Wall -Werror -Wextra -pedantic *.c -o hls
+	gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hls
