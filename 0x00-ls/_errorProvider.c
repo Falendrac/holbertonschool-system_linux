@@ -7,11 +7,9 @@
  *
  * @program: name of the program
  * @arguments: the struct of all errorlist passes at the beggining
- * @index: index of the arguments that occur the error
- *
- * Return: 2
+ * @errorName: Name of the argument that occur an error
 */
-void _errorProvider(char *program, arguments *arguments, int index)
+void _errorProvider(char *program, arguments *arguments, char *errorName)
 {
 	arguments->errorCode = MINOR_PROBLEM;
 
@@ -21,14 +19,14 @@ void _errorProvider(char *program, arguments *arguments, int index)
 			fprintf(stderr,
 					"%s: %s: Permission denied\n",
 					program,
-					arguments->errorlist[index]
+					errorName
 			);
 		break;
 		case ENOENT:
 			fprintf(stderr,
 					"%s: cannot access '%s': No such file or directory\n",
 					program,
-					arguments->errorlist[index]
+					errorName
 			);
 			arguments->errorCode = SERIOUS_PROBLEM;
 		break;

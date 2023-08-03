@@ -4,16 +4,19 @@
  * _createArguments - Initialize all value in an arguments struct
  * Allocate a suffisant space for arguments.directorylist
  *
- * @argc: The count of the arguments passes to the program
- *
  * Return: An argument struct
  */
-arguments _createArguments(int argc)
+arguments _createArguments(void)
 {
 	arguments arguments;
 
-	arguments.directorylist = malloc((argc) * sizeof(char *));
-	arguments.number = 0;
+	arguments.directorylist = NULL;
+	arguments.errorlist = NULL;
+	arguments.filelist = NULL;
+	arguments.directoryNumber = 0;
+	arguments.fileNumber = 0;
+	arguments.errorNumber = 0;
+
 	arguments.errorCode = EXIT_SUCCESS;
 
 	return (arguments);

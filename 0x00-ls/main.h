@@ -20,6 +20,7 @@
  *
  * @listing: 1 if the option -1 is passed, 0 otherwise
  * @hidden: 1 if the option -a is passed, 0 otherwise
+ * @oneline: 1 if the option -l is passed, 0 otherwise
  */
 typedef struct options
 {
@@ -52,11 +53,15 @@ typedef struct arguments
 	int errorCode;
 } arguments;
 
-arguments _createArguments(int argc);
+arguments _createArguments(void);
 options _createOptions(void);
-void _errorProvider(char *program, arguments *arguments, int index);
+void _errorProvider(char *program, arguments *arguments, char *errorName);
 arguments _getArguments(int argc, char *argv[]);
 void _listFiles(DIR *directory, options options);
-int checkFileOrDirectory(const char *path);
+struct stat _checkFileOrDirectory(char *path, arguments *arguments);
+void _createDirectoryList(arguments *arguments, char *path);
+void _createFileList(arguments *arguments, char *path);
+void _createErrorList(arguments *arguments, char *path);
+void _setOptions(arguments *arguments, char *options);
 
 #endif

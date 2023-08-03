@@ -17,31 +17,23 @@ arguments _getArguments(int argc, char *argv[])
 		if (argv[index][0] == '-')
 			optionNumbers++;
 
-	arguments = _createArguments(argc - optionNumbers);
+	arguments = _createArguments();
 	arguments.options = _createOptions();
 
-	if (argc == 1)
+	if (argc == 1 && argc - optionNumbers == 1)
 	{
+		arguments.directorylist = malloc(sizeof(char *) * argc - optionNumbers);
 		arguments.directorylist[0] = ".";
-		arguments.number = 1;
+		arguments.directoryNumber = 1;
+
+		return (arguments);
 	}
 
 	for (index = 1; index < argc; index++)
 		if (argv[index][0] != '-')
-		{
-			arguments.directorylist[arguments.number] = argv[index];
-			arguments.number++;
-		}
+			_checkFileOrDirectory(argv[index], &arguments);
 		else
-			switch (argv[index][1])
-			{
-				case 'a':
-					arguments.options.hidden = 1;
-					break;
-				case '1':
-					arguments.options.listing = 1;
-					break;
-			}
+			_setOptions(&arguments, argv[index]);
 
 	return (arguments);
 }
