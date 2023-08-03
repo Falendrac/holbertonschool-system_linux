@@ -6,6 +6,9 @@
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #define STDSEPARATOR "  "
 #define LINESEPARATOR "\n"
@@ -22,6 +25,7 @@ typedef struct options
 {
 	int listing;
 	int hidden;
+	int oneline;
 } options;
 
 /**
@@ -31,7 +35,9 @@ typedef struct options
  * @filelist: The list of files name passes
  * @errorlist: The list of name that occur errors
  * @options: The options struct
- * @number: The number of arguments
+ * @directoryNumber: The number of arguments that was a directory
+ * @fileNumber: The number of arguments that was a file
+ * @errorNumber: The number of arguments that occur an error
  * @errorCode: The error code
  */
 typedef struct arguments
@@ -40,7 +46,9 @@ typedef struct arguments
 	char **filelist;
 	char **errorlist;
 	options options;
-	int number;
+	int directoryNumber;
+	int fileNumber;
+	int errorNumber;
 	int errorCode;
 } arguments;
 
@@ -49,5 +57,6 @@ options _createOptions(void);
 void _errorProvider(char *program, arguments *arguments, int index);
 arguments _getArguments(int argc, char *argv[]);
 void _listFiles(DIR *directory, options options);
+int checkFileOrDirectory(const char *path);
 
 #endif
