@@ -11,6 +11,7 @@ options _createOptions(void)
 
 	options.listing = 0;
 	options.hidden = 0;
+	options.oneline = 0;
 
 	return (options);
 }
