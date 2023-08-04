@@ -19,14 +19,12 @@ int main(int argc, char *argv[])
 
 	arguments = _getArguments(argc, argv);
 
-	if (arguments.errorCode != EXIT_SUCCESS &&
-		(arguments.fileNumber || arguments.directoryNumber))
-		printf("\n");
-
 	for (index = 0; index < arguments.fileNumber; index++)
 	{
 		if (index + 1 < arguments.fileNumber)
 			separator = STDSEPARATOR;
+		else if (arguments.directoryNumber > 0)
+			separator = "\n\n";
 		else
 			separator = "\n";
 		printf("%s%s", arguments.filelist[index], separator);
