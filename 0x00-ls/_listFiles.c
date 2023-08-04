@@ -15,7 +15,7 @@ void _listFiles(DIR *directory, options options)
 		if (*file->d_name != '.' || options.hidden)
 		{
 			printf("%s%s", separator, file->d_name);
-			if (options.listing)
+			if (options.oneline)
 				separator = LINESEPARATOR;
 			else
 				separator = STDSEPARATOR;
