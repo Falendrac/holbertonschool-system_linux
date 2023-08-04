@@ -15,8 +15,7 @@ struct stat _checkFileOrDirectory(char *path, arguments *arguments)
 
 	if (lstat(path, &statInfos) == -1)
 	{
-		_createErrorList(arguments, path);
-
+		_errorProvider(arguments, path);
 		return (statInfos);
 	}
 
@@ -25,7 +24,7 @@ struct stat _checkFileOrDirectory(char *path, arguments *arguments)
 	else if (S_ISDIR(statInfos.st_mode))
 		_createDirectoryList(arguments, path);
 	else
-		_createErrorList(arguments, path);
+		_errorProvider(arguments, path);
 
 	return (statInfos);
 }

@@ -17,7 +17,7 @@ arguments _getArguments(int argc, char *argv[])
 		if (argv[index][0] == '-')
 			optionNumbers++;
 
-	arguments = _createArguments();
+	arguments = _createArguments(argv[0]);
 	arguments.options = _createOptions();
 
 	if (argc == 1 && argc - optionNumbers == 1)

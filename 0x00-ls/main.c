@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
 
 	arguments = _getArguments(argc, argv);
 
-	for (index = 0; index < arguments.errorNumber; index++)
-		_errorProvider(argv[0], &arguments, arguments.errorlist[index]);
+	if (arguments.errorCode != EXIT_SUCCESS &&
+		(arguments.fileNumber || arguments.directoryNumber))
+		printf("\n");
 
 	for (index = 0; index < arguments.fileNumber; index++)
 	{
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
 	{
 		directory = opendir(arguments.directorylist[index]);
 		if (directory == NULL)
-			_errorProvider(argv[0], &arguments, arguments.directorylist[index]);
+			_errorProvider(&arguments, arguments.directorylist[index]);
 		else
 		{
 			if (arguments.directoryNumber > 1)
@@ -48,7 +49,6 @@ int main(int argc, char *argv[])
 	}
 
 	free(arguments.filelist);
-	free(arguments.errorlist);
 	free(arguments.directorylist);
 
 	return (arguments.errorCode);
