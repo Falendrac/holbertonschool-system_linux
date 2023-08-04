@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 			_errorProvider(&arguments, arguments.directorylist[index]);
 		else
 		{
-			if (arguments.directoryNumber > 1)
+			if (argc - arguments.optionsNumber - 1 > 1)
 				printf("%s:\n", arguments.directorylist[index]);
 			_listFiles(directory, arguments.options);
 			closedir(directory);

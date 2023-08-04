@@ -36,6 +36,8 @@ typedef struct options
  * @directorylist: The list of directory name passes
  * @filelist: The list of files name passes
  * @options: The options struct
+ * @optionsNumber: The number passes though
+ * the program (only count args with '-' character)
  * @directoryNumber: The number of arguments that was a directory
  * @fileNumber: The number of arguments that was a file
  * @errorCode: The error code
@@ -46,6 +48,7 @@ typedef struct arguments
 	char **directorylist;
 	char **filelist;
 	options options;
+	int optionsNumber;
 	int directoryNumber;
 	int fileNumber;
 	int errorCode;
