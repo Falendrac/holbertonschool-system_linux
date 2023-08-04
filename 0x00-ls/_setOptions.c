@@ -16,7 +16,7 @@ void _setOptions(arguments *arguments, char *options)
 			arguments->options.hidden = 1;
 			break;
 		case '1':
-			arguments->options.listing = 1;
+			arguments->options.oneline = 1;
 			break;
 	}
 }

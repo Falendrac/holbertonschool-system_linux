@@ -21,9 +21,10 @@ int main(int argc, char *argv[])
 
 	for (index = 0; index < arguments.fileNumber; index++)
 	{
-		if (index + 1 < arguments.fileNumber)
+		if (index + 1 < arguments.fileNumber && arguments.options.oneline == 0)
 			separator = STDSEPARATOR;
-		else if (arguments.directoryNumber > 0)
+		else if (arguments.directoryNumber > 0 &&
+					(arguments.options.oneline == 0 || index + 1 == arguments.fileNumber))
 			separator = "\n\n";
 		else
 			separator = "\n";
