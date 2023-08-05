@@ -9,9 +9,9 @@ options _createOptions(void)
 {
 	options options;
 
-	options.listing = 0;
 	options.hidden = 0;
 	options.oneline = 0;
+	options.implied = 0;
 
 	return (options);
 }

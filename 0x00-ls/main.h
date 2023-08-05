@@ -18,15 +18,15 @@
 /**
  * struct options - Struct for options
  *
- * @listing: 1 if the option -1 is passed, 0 otherwise
  * @hidden: 1 if the option -a is passed, 0 otherwise
  * @oneline: 1 if the option -l is passed, 0 otherwise
+ * @implied: 1 if the option -A is passed, 0 otherwise
  */
 typedef struct options
 {
-	int listing;
 	int hidden;
 	int oneline;
+	int implied;
 } options;
 
 /**
@@ -64,5 +64,7 @@ void _createDirectoryList(arguments *arguments, char *path);
 void _createFileList(arguments *arguments, char *path);
 void _createErrorList(arguments *arguments, char *path);
 void _setOptions(arguments *arguments, char *options);
+int _strcmp(char *str1, char *str2);
+void _openDirectories(int argc, arguments arguments);
 
 #endif

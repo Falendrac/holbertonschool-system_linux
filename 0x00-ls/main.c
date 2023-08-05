@@ -12,7 +12,6 @@
  */
 int main(int argc, char *argv[])
 {
-	DIR *directory;
 	arguments arguments;
 	int index;
 	char *separator = "";
@@ -31,21 +30,7 @@ int main(int argc, char *argv[])
 		printf("%s%s", arguments.filelist[index], separator);
 	}
 
-	for (index = 0; index < arguments.directoryNumber; index++)
-	{
-		directory = opendir(arguments.directorylist[index]);
-		if (directory == NULL)
-			_errorProvider(&arguments, arguments.directorylist[index]);
-		else
-		{
-			if (argc - arguments.optionsNumber - 1 > 1)
-				printf("%s:\n", arguments.directorylist[index]);
-			_listFiles(directory, arguments.options);
-			closedir(directory);
-			if (arguments.directoryNumber > 1 && index != arguments.directoryNumber - 1)
-				printf("\n");
-		}
-	}
+	_openDirectories(argc, arguments);
 
 	free(arguments.filelist);
 	free(arguments.directorylist);
