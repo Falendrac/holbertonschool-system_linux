@@ -12,7 +12,7 @@ void _listFiles(DIR *directory, options options)
 	char *separator = "";
 
 	while ((file = readdir(directory)))
-		if (*file->d_name != '.' || options.hidden)
+		if (*file->d_name != '.' || options.hidden || options.implied)
 		{
 			if (options.implied == 1 && *file->d_name == '.' &&
 				(_strcmp(".", file->d_name) || _strcmp("..", file->d_name)))
