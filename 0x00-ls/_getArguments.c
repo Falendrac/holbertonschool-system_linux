@@ -21,13 +21,11 @@ arguments _getArguments(int argc, char *argv[])
 	arguments.optionsNumber = optionNumbers;
 	arguments.options = _createOptions();
 
-	if (argc == 1 && argc - optionNumbers == 1)
+	if (argc == 1 || argc - optionNumbers == 1)
 	{
 		arguments.directorylist = malloc(sizeof(char *) * argc - optionNumbers);
 		arguments.directorylist[0] = ".";
 		arguments.directoryNumber = 1;
-
-		return (arguments);
 	}
 
 	for (index = 1; index < argc; index++)
