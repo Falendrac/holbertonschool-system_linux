@@ -10,13 +10,19 @@
 */
 void _setOptions(arguments *arguments, char *options)
 {
-	switch (options[1])
+	int index = 1;
+
+	while (options[index])
 	{
-		case 'a':
-			arguments->options.hidden = 1;
-			break;
-		case '1':
-			arguments->options.oneline = 1;
-			break;
+		switch (options[index])
+		{
+			case 'a':
+				arguments->options.hidden = 1;
+				break;
+			case '1':
+				arguments->options.oneline = 1;
+				break;
+		}
+		index++;
 	}
 }
