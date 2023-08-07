@@ -10,8 +10,7 @@ void _print_file_details(char *filename)
 	struct stat file_info;
 	struct passwd *owner_info;
 	struct group *group_info;
-	struct tm *tm_info;
-	char time_str[20], permissions[11];
+	char *time_str, permissions[11];
 	int indx;
 
 	if (lstat(filename, &file_info) == -1)
@@ -22,8 +21,9 @@ void _print_file_details(char *filename)
 
 	owner_info = getpwuid(file_info.st_uid);
 	group_info = getgrgid(file_info.st_gid);
-	tm_info = localtime(&(file_info.st_mtime));
-	strftime(time_str, sizeof(time_str), "%b %d %H:%M", tm_info);
+	time_str = ctime(&(file_info.st_mtime));
+	time_str = time_str + 4;
+	time_str[12] = '\0';
 
 	permissions[0] = (S_ISDIR(file_info.st_mode)) ? 'd' : '-';
 	for (indx = 0; indx < 9; indx += 3)
