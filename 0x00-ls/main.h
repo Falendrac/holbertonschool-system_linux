@@ -9,6 +9,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
 
 #define STDSEPARATOR "  "
 #define LINESEPARATOR "\n"
@@ -19,14 +22,16 @@
  * struct options - Struct for options
  *
  * @hidden: 1 if the option -a is passed, 0 otherwise
- * @oneline: 1 if the option -l is passed, 0 otherwise
+ * @oneline: 1 if the option -1 is passed, 0 otherwise
  * @implied: 1 if the option -A is passed, 0 otherwise
+ * @detail: 1 if the option -l is passed, 0 otherwise
  */
 typedef struct options
 {
 	int hidden;
 	int oneline;
 	int implied;
+	int detail;
 } options;
 
 /**
@@ -66,5 +71,6 @@ void _createErrorList(arguments *arguments, char *path);
 void _setOptions(arguments *arguments, char *options);
 int _strcmp(char *str1, char *str2);
 void _openDirectories(int argc, arguments arguments);
+void _print_file_details(char *filename);
 
 #endif

@@ -25,6 +25,9 @@ void _setOptions(arguments *arguments, char *options)
 			case 'A':
 				arguments->options.implied = 1;
 				break;
+			case 'l':
+				arguments->options.detail = 1;
+				break;
 		}
 		index++;
 	}

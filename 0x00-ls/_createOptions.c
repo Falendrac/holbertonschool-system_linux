@@ -12,6 +12,7 @@ options _createOptions(void)
 	options.hidden = 0;
 	options.oneline = 0;
 	options.implied = 0;
+	options.detail = 0;
 
 	return (options);
 }

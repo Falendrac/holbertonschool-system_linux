@@ -17,12 +17,18 @@ void _listFiles(DIR *directory, options options)
 			if (options.implied == 1 && *file->d_name == '.' &&
 				(_strcmp(".", file->d_name) || _strcmp("..", file->d_name)))
 				continue;
-			printf("%s%s", separator, file->d_name);
+
+			if (options.detail)
+				_print_file_details(file->d_name);
+			else
+				printf("%s%s", separator, file->d_name);
+
 			if (options.oneline)
 				separator = LINESEPARATOR;
 			else
 				separator = STDSEPARATOR;
 		}
 
-	printf("\n");
+	if (!options.detail)
+		printf("\n");
 }
