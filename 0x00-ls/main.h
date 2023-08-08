@@ -63,7 +63,7 @@ arguments _createArguments(char *programName);
 options _createOptions(void);
 void _errorProvider(arguments *arguments, char *errorName);
 arguments _getArguments(int argc, char *argv[]);
-void _listFiles(DIR *directory, options options);
+void _listFiles(DIR *directory, options options, char *path);
 struct stat _checkFileOrDirectory(char *path, arguments *arguments);
 void _createDirectoryList(arguments *arguments, char *path);
 void _createFileList(arguments *arguments, char *path);
@@ -71,6 +71,7 @@ void _createErrorList(arguments *arguments, char *path);
 void _setOptions(arguments *arguments, char *options);
 int _strcmp(char *str1, char *str2);
 void _openDirectories(int argc, arguments arguments);
-void _print_file_details(char *filename);
+void _print_file_details(char *filename, char *path);
+int _strlength(char *str);
 
 #endif

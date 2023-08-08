@@ -22,7 +22,7 @@ void _openDirectories(int argc, arguments arguments)
 		{
 			if (argc - arguments.optionsNumber - 1 > 1)
 				printf("%s:\n", arguments.directorylist[index]);
-			_listFiles(directory, arguments.options);
+			_listFiles(directory, arguments.options, arguments.directorylist[index]);
 			closedir(directory);
 			if (arguments.directoryNumber > 1 && index != arguments.directoryNumber - 1)
 				printf("\n");

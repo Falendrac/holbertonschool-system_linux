@@ -5,8 +5,9 @@
  *
  * @directory: The directory to list
  * @options: The options struct
+ * @path: The path of the directory and the file
  */
-void _listFiles(DIR *directory, options options)
+void _listFiles(DIR *directory, options options, char *path)
 {
 	struct dirent *file;
 	char *separator = "";
@@ -19,7 +20,7 @@ void _listFiles(DIR *directory, options options)
 				continue;
 
 			if (options.detail)
-				_print_file_details(file->d_name);
+				_print_file_details(file->d_name, path);
 			else
 				printf("%s%s", separator, file->d_name);
 
