@@ -86,8 +86,8 @@ void _print_file_details(char *filename, char *path)
 
 	printf("%s %ld %s %s %ld %s %s\n",
 		   permissions, file_info.st_nlink,
-		   (owner_info != NULL) ? owner_info->pw_name : "unknown",
-		   (group_info != NULL) ? group_info->gr_name : "unknown",
+		   owner_info->pw_name,
+		   group_info->gr_name,
 		   file_info.st_size, time_str, filename);
 	free(fullPath);
 }
