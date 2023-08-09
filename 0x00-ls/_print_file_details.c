@@ -51,8 +51,6 @@ char *_pathFormat(char *path, int *pathSize)
 void _print_file_details(char *filename, char *path)
 {
 	struct stat file_info;
-	struct passwd *owner_info;
-	struct group *group_info;
 	char *time_str, permissions[11], *fullPath, *separator;
 	int indx, fullPathSize, pathSize;
 
@@ -69,8 +67,6 @@ void _print_file_details(char *filename, char *path)
 		return;
 	}
 
-	owner_info = getpwuid(file_info.st_uid);
-	group_info = getgrgid(file_info.st_gid);
 	time_str = ctime(&(file_info.st_mtime));
 	time_str = time_str + 4;
 	time_str[12] = '\0';
@@ -84,10 +80,10 @@ void _print_file_details(char *filename, char *path)
 	}
 	permissions[10] = '\0';
 
-	printf("%s %ld %s %s %ld %s %s\n",
+	printf("%s %ld %u %u %ld %s %s\n",
 		   permissions, file_info.st_nlink,
-		   owner_info->pw_name,
-		   group_info->gr_name,
+		   file_info.st_uid,
+		   file_info.st_gid,
 		   file_info.st_size, time_str, filename);
 	free(fullPath);
 }
