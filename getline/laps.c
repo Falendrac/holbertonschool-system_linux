@@ -46,20 +46,26 @@ carRace *_allocateCountTour(int *id, size_t size, carRace *countTour)
 */
 void _sortRaceArray(size_t size, carRace *countTour)
 {
-	size_t index, sortIndex, lastIndex = size - 1;
+	size_t i, j;
+	int swapped;
 	carRace tmp;
 
-	for (index = 0; index < lastIndex; index++)
+	for (i = 0; i < size - 1; i++)
 	{
-		if (countTour[index].carId > countTour[lastIndex].carId)
+		swapped = 0;
+		for (j = 0; j < size - i - 1; j++)
 		{
-			for (sortIndex = index; sortIndex < size; sortIndex++)
+			if(countTour[j].carId > countTour[j + 1].carId)
 			{
-				tmp = countTour[sortIndex];
-				countTour[sortIndex] = countTour[lastIndex];
-				countTour[lastIndex] = tmp;
+				tmp = countTour[j];
+				countTour[j] = countTour[j + 1];
+				countTour[j + 1] = tmp;
+				swapped = 1;
 			}
 		}
+
+		if (swapped == 0)
+			break;
 	}
 }
 
