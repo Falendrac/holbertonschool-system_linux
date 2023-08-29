@@ -19,7 +19,7 @@ typedef struct carRace
 void race_state(int *id, size_t size);
 carRace *_allocateCountTour(int *id, size_t size, carRace *countTour);
 void _printRaceTour(carRace *countTour, size_t sizeCountTour);
-int _carTourAdd(carRace *countTour, size_t sizeTour, int *id, size_t size);
+int _carTourAdd(carRace *countTour, size_t sizeCountTour, int id);
 void _sortRaceArray(size_t size, carRace *countTour);
 
 #endif

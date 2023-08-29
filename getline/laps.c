@@ -67,30 +67,28 @@ void _sortRaceArray(size_t size, carRace *countTour)
  * _carTourAdd - Add laps for the cars passes in argument
  *
  * @countTour: The array of all cars in the race
- * @sizeTour: The size of the array countTour
- * @id: The array of identifier car
- * @size: Size of the array
+ * @sizeCountTour: The size of the array countTour
+ * @id: The identifier we want to add a laps
  *
  * Return: 0 if cars identifier is not in the race tour,
  * 1 if the laps is correctly added to all cars
 */
-int _carTourAdd(carRace *countTour, size_t sizeTour, int *id, size_t size)
+int _carTourAdd(carRace *countTour, size_t sizeCountTour, int id)
 {
-	size_t index, indexId = 0;
+	size_t index = 0;
 
-	for (index = 0; index < sizeTour && indexId < size; index++)
+	while (index < sizeCountTour)
 	{
-		if (countTour[index].carId == id[indexId])
+		if (countTour[index].carId == id)
 		{
 			countTour[index].carTour++;
-			indexId++;
+			return (1);
 		}
+
+		index++;
 	}
 
-	if (indexId < size)
-		return (0);
-
-	return (1);
+	return (0);
 }
 
 /**
@@ -122,6 +120,7 @@ void race_state(int *id, size_t size)
 {
 	static carRace *countTour;
 	static size_t sizeCountTour;
+	size_t indexId;
 
 	if (!id)
 	{
@@ -130,8 +129,15 @@ void race_state(int *id, size_t size)
 		return;
 	}
 
-	if (!countTour || !_carTourAdd(countTour, sizeCountTour, id, size))
+	if (!countTour)
 		countTour = _allocateCountTour(id, sizeCountTour += size, countTour);
+	else
+	{
+		for (indexId = 0; indexId < size; indexId++)
+			if (_carTourAdd(countTour, sizeCountTour, id[indexId]) == 0)
+				countTour = _allocateCountTour(id + indexId,
+												sizeCountTour += 1, countTour);
+	}
 
 	_printRaceTour(countTour, sizeCountTour);
 }
