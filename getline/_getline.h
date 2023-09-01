@@ -8,5 +8,6 @@
 #define READ_SIZE 256
 
 char *_getline(const int fd);
+char *allocateBuffer(size_t size);
 
 #endif
