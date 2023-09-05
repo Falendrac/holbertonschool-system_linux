@@ -9,5 +9,6 @@
 
 char *_getline(const int fd);
 char *allocateBuffer(size_t size);
+int _searchLine(char *buffer, size_t bufferSize, size_t index);
 
 #endif

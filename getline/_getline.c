@@ -5,21 +5,39 @@
  * allocateBuffer - Allocate memory for the buffer and set all memory
  * at the null character
  *
- * @size: The size the buffer that need to be alocate
+ * @index: The index the buffer that need to be alocate
  *
  * Return: Null if the allocation failed, otherwise, return the pointer of the
  * allocated buffer
 */
-char *allocateBuffer(size_t size)
+char *allocateBuffer(size_t index)
 {
 	char *buffer;
 
-	buffer = malloc(size * sizeof(char));
+	buffer = malloc(index * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	memset(buffer, 0, size);
+	memset(buffer, 0, index);
 
 	return (buffer);
+}
+
+/**
+ * _searchLine - Search for the new line per line and return the
+ * index of the newline
+ *
+ * @buffer: The buffer fill by read
+ * @bufferSize: the number of char that have been read
+ *
+ * Return: The index of the newline or the end of the buffer
+*/
+int _searchLine(char *buffer, size_t bufferSize, size_t index)
+{
+	for (; index < bufferSize; index++)
+		if (buffer[index] == '\n')
+			return (index);
+
+	return (index);
 }
 
 /**
@@ -31,19 +49,34 @@ char *allocateBuffer(size_t size)
 */
 char *_getline(const int fd)
 {
-	char *buffer, *tmp;
-	size_t charRead;
+	static char *buffer;
+	char *tmp;
+	static size_t charRead, oldIndex;
+	size_t indexLine;
 	static size_t sizeExposant = 1;
 
-	buffer = allocateBuffer(READ_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-
-	charRead = read(fd, buffer, READ_SIZE);
 	if (charRead <= 0)
 	{
-		free(buffer);
-		return (NULL);
+		buffer = allocateBuffer(READ_SIZE + 1);
+		if (!buffer)
+			return (NULL);
+
+		charRead = read(fd, buffer, READ_SIZE);
+		if (charRead <= 0)
+		{
+			free(buffer);
+			return (NULL);
+		}
+	}
+
+	indexLine = _searchLine(buffer, charRead, oldIndex);
+	if (indexLine < charRead)
+	{
+		tmp = malloc(sizeof(char) * (indexLine + 1));
+		strncpy(tmp, buffer + oldIndex, indexLine);
+		tmp[indexLine] = '\0';
+		oldIndex += indexLine + 1;
+		return (tmp);
 	}
 
 	if (charRead == READ_SIZE)
