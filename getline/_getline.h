@@ -7,6 +7,12 @@
 
 #define READ_SIZE 256
 
+/**
+ * struct lines_get - Node that store one line of a buffer
+ *
+ * @line: One line in the original buffer
+ * @nextLine: The next node of line
+*/
 typedef struct lines_get
 {
 	char *line;
