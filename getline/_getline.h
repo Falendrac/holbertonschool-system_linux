@@ -15,6 +15,8 @@ typedef struct lines_get
 
 char *_getline(const int fd);
 char *allocateBuffer(char *buffer, size_t size);
-int _searchLine(char *buffer, size_t bufferSize, size_t index);
+char *_readFile(const int fd, size_t *size, char **buffer);
+lines_get *_addNodeLine(char *buffer, size_t indexStart, size_t indexEnd);
+lines_get *_lineParsing(char *buffer, size_t size);
 
 #endif
