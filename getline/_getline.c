@@ -5,39 +5,95 @@
  * allocateBuffer - Allocate memory for the buffer and set all memory
  * at the null character
  *
- * @index: The index the buffer that need to be alocate
+ * @size: The size the buffer that need to be alocate
  *
  * Return: Null if the allocation failed, otherwise, return the pointer of the
  * allocated buffer
 */
-char *allocateBuffer(size_t index)
+char *allocateBuffer(char *buffer, size_t size)
 {
-	char *buffer;
+	char *tmp;
 
-	buffer = malloc(index * sizeof(char));
+	if (!buffer)
+	{
+		tmp = malloc(sizeof(char) * (READ_SIZE + 1));
+		if (!tmp)
+			return (NULL);
+		memset(tmp, '\0', READ_SIZE + 1);
+		return (tmp);
+	}
+
+	buffer = realloc(buffer, (size + READ_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	memset(buffer, 0, index);
+	memset(buffer + size, '\0', READ_SIZE + 1);
 
 	return (buffer);
 }
 
-/**
- * _searchLine - Search for the new line per line and return the
- * index of the newline
- *
- * @buffer: The buffer fill by read
- * @bufferSize: the number of char that have been read
- *
- * Return: The index of the newline or the end of the buffer
-*/
-int _searchLine(char *buffer, size_t bufferSize, size_t index)
+char *_readFile(const int fd, size_t *size, char **buffer)
 {
-	for (; index < bufferSize; index++)
-		if (buffer[index] == '\n')
-			return (index);
+	char *localBuffer;
+	size_t charRead;
 
-	return (index);
+	localBuffer = allocateBuffer(NULL, 0);
+	if (!localBuffer)
+		return (NULL);
+	charRead = read(fd, localBuffer, READ_SIZE);
+	*size += charRead;
+	strcat(*buffer, localBuffer);
+	free(localBuffer);
+
+	if (charRead == READ_SIZE)
+	{
+		*buffer = allocateBuffer(*buffer, *size);
+		return (_readFile(fd, size, buffer));
+	}
+
+	return (*buffer);
+}
+
+lines_get *_addNodeLine(char *buffer, size_t indexStart, size_t indexEnd)
+{
+	lines_get *lines;
+	size_t lineSize;
+
+	lineSize = indexEnd - indexStart;
+	lines = malloc(sizeof(lines_get));
+	lines->line = malloc(sizeof(char) * (lineSize + 1));
+	memcpy(lines->line, buffer + indexStart, lineSize);
+	memset(lines->line + lineSize, '\0', 1);
+	lines->nextLine = NULL;
+
+	return (lines);
+}
+
+lines_get *_lineParsing(char *buffer, size_t size)
+{
+	lines_get *lines = NULL, *tmp;
+	size_t indexStart = 0, indexEnd = 0;
+
+	while (buffer[indexStart])
+	{
+		while(buffer[indexEnd] != '\n' && indexEnd < size)
+			indexEnd++;
+
+		if (!lines)
+		{
+			lines = _addNodeLine(buffer, indexStart, indexEnd);
+			tmp = lines;
+		}
+		else
+		{
+			tmp->nextLine = _addNodeLine(buffer, indexStart, indexEnd);
+			tmp = tmp->nextLine;
+		}
+
+		indexEnd++;
+		indexStart = indexEnd;
+	}
+
+	return (lines);
 }
 
 /**
@@ -49,53 +105,39 @@ int _searchLine(char *buffer, size_t bufferSize, size_t index)
 */
 char *_getline(const int fd)
 {
-	static char *buffer;
-	char *tmp;
-	static size_t charRead, oldIndex;
-	size_t indexLine;
-	static size_t sizeExposant = 1;
+	char *buffer;
+	size_t charRead = 0;
+	static lines_get *lines;
+	lines_get *tmp;
 
+	while (lines)
+	{
+		tmp = lines->nextLine;
+		buffer = lines->line;
+		free(lines);
+		lines = tmp;
+		return (buffer);
+	}
+
+	buffer = allocateBuffer(NULL, 0);
+	if (!buffer)
+		return (NULL);
+
+	_readFile(fd, &charRead, &buffer);
 	if (charRead <= 0)
 	{
-		buffer = allocateBuffer(READ_SIZE + 1);
-		if (!buffer)
-			return (NULL);
-
-		charRead = read(fd, buffer, READ_SIZE);
-		if (charRead <= 0)
-		{
-			free(buffer);
-			return (NULL);
-		}
+		free(buffer);
+		return (NULL);
 	}
 
-	indexLine = _searchLine(buffer, charRead, oldIndex);
-	if (indexLine < charRead)
-	{
-		tmp = malloc(sizeof(char) * (indexLine + 1));
-		strncpy(tmp, buffer + oldIndex, indexLine);
-		tmp[indexLine] = '\0';
-		oldIndex += indexLine + 1;
-		return (tmp);
-	}
-
-	if (charRead == READ_SIZE)
-	{
-		sizeExposant++;
-		tmp = _getline(fd);
-		buffer = realloc(buffer, READ_SIZE * sizeExposant + 1);
-		if (!buffer)
-		{
-			free(tmp);
-			return (NULL);
-		}
-		strcat(buffer, tmp);
-		free(tmp);
-	}
-	else
+	if (buffer[charRead - 1] == '\n')
 	{
 		buffer[charRead - 1] = '\0';
+		charRead--;
 	}
 
-	return (buffer);
+	lines = _lineParsing(buffer, charRead);
+	free(buffer);
+
+	return (_getline(fd));
 }
