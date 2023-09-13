@@ -183,7 +183,7 @@ char *_getline(const int fd)
 		{
 			if (lines->line)
 				free(lines->line);
-			lines = browseLines(lines);
+			lines = _browseLines(lines);
 		}
 		return (NULL);
 	}
@@ -191,7 +191,7 @@ char *_getline(const int fd)
 	while (lines)
 	{
 		buffer = lines->line;
-		lines = browseLines(lines);
+		lines = _browseLines(lines);
 		return (buffer);
 	}
 
