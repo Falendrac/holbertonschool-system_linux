@@ -1,5 +1,4 @@
 #include "_getline.h"
-#include <stdio.h>
 
 /**
  * allocateBuffer - Allocate memory for the buffer if there is null
