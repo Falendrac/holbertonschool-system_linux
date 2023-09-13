@@ -173,12 +173,6 @@ char *_getline(const int fd)
 		return (NULL);
 	}
 
-	if (buffer[charRead - 1] == '\n')
-	{
-		buffer[charRead - 1] = '\0';
-		charRead--;
-	}
-
 	lines = _lineParsing(buffer, charRead);
 	free(buffer);
 
