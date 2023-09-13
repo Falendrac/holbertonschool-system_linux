@@ -1,4 +1,5 @@
 #include "_getline.h"
+#include <stdio.h>
 
 /**
  * allocateBuffer - Allocate memory for the buffer if there is null
@@ -91,9 +92,14 @@ lines_get *_addNodeLine(char *buffer, size_t indexStart, size_t indexEnd)
 
 	lineSize = indexEnd - indexStart;
 	lines = malloc(sizeof(lines_get));
-	lines->line = malloc(sizeof(char) * (lineSize + 1));
-	memcpy(lines->line, buffer + indexStart, lineSize);
-	memset(lines->line + lineSize, '\0', 1);
+	if (!buffer)
+		lines->line = NULL;
+	else
+	{
+		lines->line = malloc(sizeof(char) * (lineSize + 1));
+		memcpy(lines->line, buffer + indexStart, lineSize);
+		memset(lines->line + lineSize, '\0', 1);
+	}
 	lines->nextLine = NULL;
 
 	return (lines);
@@ -132,6 +138,8 @@ lines_get *_lineParsing(char *buffer, size_t size)
 		indexEnd++;
 		indexStart = indexEnd;
 	}
+
+	tmp->nextLine =  _addNodeLine(NULL, 0, 0);
 
 	return (lines);
 }
