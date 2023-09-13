@@ -24,5 +24,6 @@ char *allocateBuffer(char *buffer, size_t size);
 char *_readFile(const int fd, size_t *size, char **buffer);
 lines_get *_addNodeLine(char *buffer, size_t indexStart, size_t indexEnd);
 lines_get *_lineParsing(char *buffer, size_t size);
+lines_get *_browseLines(lines_get *lines);
 
 #endif
