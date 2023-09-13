@@ -54,6 +54,12 @@ char *_readFile(const int fd, size_t *size, char **buffer)
 	if (!localBuffer)
 		return (NULL);
 	charRead = read(fd, localBuffer, READ_SIZE);
+	if (charRead == (size_t)-1)
+	{
+		write(STDIN_FILENO, "Nothing to read\n", 17);
+		free(localBuffer);
+		return (NULL);
+	}
 	*size += charRead;
 	strcat(*buffer, localBuffer);
 	free(localBuffer);
