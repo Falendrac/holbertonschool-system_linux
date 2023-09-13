@@ -145,6 +145,24 @@ lines_get *_lineParsing(char *buffer, size_t size)
 }
 
 /**
+ * _browsLines - Return the next node of lines and free the current node
+ *
+ * @lines: All lines parsed by getline
+ *
+ * Return: The next node
+*/
+lines_get *_browseLines(lines_get *lines)
+{
+	lines_get *tmp;
+
+	tmp = lines->nextLine;
+	free(lines);
+	lines = tmp;
+
+	return (lines);
+}
+
+/**
  * _getline - reads an entire line from a file descriptor
  * store all lines contain in and return each line when the function
  * is call
@@ -158,14 +176,22 @@ char *_getline(const int fd)
 	char *buffer;
 	size_t charRead = 0;
 	static lines_get *lines;
-	lines_get *tmp;
+
+	if (fd == -1)
+	{
+		while (lines)
+		{
+			if (lines->line)
+				free(lines->line);
+			lines = browseLines(lines);
+		}
+		return (NULL);
+	}
 
 	while (lines)
 	{
-		tmp = lines->nextLine;
 		buffer = lines->line;
-		free(lines);
-		lines = tmp;
+		lines = browseLines(lines);
 		return (buffer);
 	}
 
